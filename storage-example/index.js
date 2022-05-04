@@ -5,7 +5,7 @@
     3. Lägg till li-taggen i vår ul
 */
 const todosElem = document.querySelector('#todos');
-const todosFromStorage = localStorage.getItem('myTodos');
+let todosFromStorage = JSON.parse(localStorage.getItem('myTodos'));
 
 function createTodoItem(todo) {
     const todoElem = document.createElement('li');
@@ -13,13 +13,32 @@ function createTodoItem(todo) {
     todosElem.append(todoElem);
 
     todoElem.addEventListener('click', () => {
-        console.log(todo);
-       /*
-       1. Ta bort vald todo från arrayen (använd filter() eller en splice())
-       2. Spara den nya arrayen till localStorage
+        /*
+        1. Ta bort vald todo från arrayen (använd filter() eller en splice())
+        2. Spara den nya arrayen till localStorage
        */ 
+        console.log(todo);
+        todoElem.remove();
+
+        todosFromStorage = todosFromStorage.filter((todoItem) => {
+            console.log(todoItem);
+            if (todoItem.task !== todo.task) {
+                return todoItem;
+            }
+        });
+
+        saveToLocalStorage(todosFromStorage);
+
+       /** En variant med splice istället */
+
+       // Vi behöver först hitta indexet vår todo ligger på i arrayen
+    //    const index = todosFromStorage.findIndex((todoItem) => todoItem.task === todo.task);
+    //    todosFromStorage.splice(index, 1);
+    //    saveToLocalStorage(todosFromStorage);
+
     });
 }
+
 
 
 function displayTodos(todos) {
@@ -43,7 +62,7 @@ async function getTodos() {
 }
 
 if (todosFromStorage) {
-    displayTodos(JSON.parse(todosFromStorage));
+    displayTodos(todosFromStorage);
 } else {
     getTodos();
 }
