@@ -11,6 +11,14 @@ function createTodoItem(todo) {
     const todoElem = document.createElement('li');
     todoElem.innerHTML = todo.task;
     todosElem.append(todoElem);
+
+    todoElem.addEventListener('click', () => {
+        console.log(todo);
+       /*
+       1. Ta bort vald todo från arrayen (använd filter() eller en splice())
+       2. Spara den nya arrayen till localStorage
+       */ 
+    });
 }
 
 
